@@ -19,13 +19,36 @@
     <div class="wrapper">
         <div class="wrapper-left">
             <section class="daily-announce component">
-                <div class="day">December 20th 2021</div>
+                <div class="date">December 20th 2021</div>
                 <div class="greeting">Hello Hayato!</div>
                 <div class="reminder">Today is <span class="training-type">Leg</span> day. Keep it up!</div>
             </section>
-            <section class="streak component">
-                <div class="streak-days">Day 32</div>
+            <section class="streak component" id="open-streak-modal">
+                <div class=" streak-days">
+                    Day 32
+                </div>
             </section>
+            <div class="modal-container" id="streak-modal-container">
+                <div class="modal" id="streak-modal">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            Day 32
+                        </div>
+                        <button data-close-button class="close-button" id="close-streak-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="">
+                            <div class="streak-question-container">
+                                <label for="">When was the first trainig day?</label>
+                                <input class="streak-input-box" name="money" type="date" max="2021-12-21">
+                            </div>
+                            <div class="submit-button-container">
+                                <button class="submit-button" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <section class="schedule component" id="open-schedule-modal">
                 <h2 class="heading">Schedule</h2>
                 <ul>
@@ -68,7 +91,39 @@
                         <button data-close-button class="close-button" id="close-schedule-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, deserunt vel? Voluptatibus natus libero soluta numquam neque quaerat perferendis dolore in assumenda alias id reiciendis quasi facilis ullam ab cupiditate veniam impedit magnam totam, qui veritatis? Odio dolor et maiores nam rerum nulla molestiae soluta, accusantium quod fuga harum! Quisquam!
+                        <form action="">
+                            <div class="form-row">
+                                <label class="day" for="monday-training">MON</label>
+                                <input name="monday-training" type="text" value="sample">
+                            </div>
+                            <div class="form-row">
+                                <label class="day" for="tuesday-training">TUE</label>
+                                <input name="tuesday-training" type="text" value="sample">
+                            </div>
+                            <div class="form-row">
+                                <label class="day" for="wednesday-training">WED</label>
+                                <input name="wednesday-training" type="text" value="sample">
+                            </div>
+                            <div class="form-row">
+                                <label class="day" for="thursday-training">THU</label>
+                                <input name="thursday-training" type="text" value="sample">
+                            </div>
+                            <div class="form-row">
+                                <label class="day" for="friday-training">FRI</label>
+                                <input name="friday-training" type="text" value="sample">
+                            </div>
+                            <div class="form-row">
+                                <label class="day" for="saturday-training">SAT</label>
+                                <input name="saturday-training" type="text" value="sample">
+                            </div>
+                            <div class="form-row">
+                                <label class="day" for="sunday-training">SUN</label>
+                                <input name="sunday-training" type="text" value="sample">
+                            </div>
+                            <div class="submit-button-container">
+                                <button class="submit-button" type="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -76,7 +131,7 @@
         <div class="wrapper-right">
             <section class="sizes component" id="open-sizes-modal">
                 <h2 class="heading">Sizes</h2>
-                <table>
+                <table class="sizes-table">
                     <tr>
                         <th></th>
                         <th>Start</th>
@@ -144,7 +199,69 @@
                         <button data-close-button class="close-button" id="close-sizes-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, deserunt vel? Voluptatibus natus libero soluta numquam neque quaerat perferendis dolore in assumenda alias id reiciendis quasi facilis ullam ab cupiditate veniam impedit magnam totam, qui veritatis? Odio dolor et maiores nam rerum nulla molestiae soluta, accusantium quod fuga harum! Quisquam!
+                        <form action="">
+                            <table class="size-input-table">
+                                <tr class="size-input-row">
+                                    <th></th>
+                                    <th>Start</th>
+                                    <th>Current</th>
+                                    <th>Goal</th>
+                                    <th>Diff</th>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Height</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="165" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="165" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="165" min="0"> cm</td>
+                                    <td class="size-input-cell">+0 cm</td>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Weight</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="60" min="0"> kg</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="60" min="0"> kg</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="60" min="0"> kg</td>
+                                    <td class="size-input-cell">+8 kg</td>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Chest</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="90" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="90" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="100" min="0"> cm</td>
+                                    <td class="size-input-cell">+8 cm</td>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Waist</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="70" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="70" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="70" min="0"> cm</td>
+                                    <td class="size-input-cell">+0 cm</td>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Biceps</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="30" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="30" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="35" min="0"> cm</td>
+                                    <td class="size-input-cell">+5 cm</td>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Hip</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="80" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="80" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="85" min="0"> cm</td>
+                                    <td class="size-input-cell">+5 cm</td>
+                                </tr>
+                                <tr>
+                                    <td class="size-input-cell">Thigh</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="40" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="40" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="45" min="0"> cm</td>
+                                    <td class="size-input-cell">+5 cm</td>
+                                </tr>
+                            </table>
+                            <div class="submit-button-container">
+                                <button class="submit-button" type="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -168,7 +285,19 @@
                         <button data-close-button class="close-button" id="close-cost-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, deserunt vel? Voluptatibus natus libero soluta numquam neque quaerat perferendis dolore in assumenda alias id reiciendis quasi facilis ullam ab cupiditate veniam impedit magnam totam, qui veritatis? Odio dolor et maiores nam rerum nulla molestiae soluta, accusantium quod fuga harum! Quisquam!
+                        <form action="">
+                            <div class="cost-question-container">
+                                <label for="">Please select month and year.</label>
+                                <input class="cost-input-box" name="money" type="month">
+                            </div>
+                            <div class="cost-question-container">
+                                <label for="">How much did you epend the month?</label>
+                                <input class="cost-input-box" name="money" type="number" placeholder="¥">
+                            </div>
+                            <div class="submit-button-container">
+                                <button class="submit-button" type="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

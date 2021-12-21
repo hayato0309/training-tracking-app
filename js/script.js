@@ -1,5 +1,34 @@
 /**
- * Trainig schedule用モーダル
+ * Streak用モーダル
+ */
+const openStreakModal = document.getElementById('open-streak-modal');
+const streakModalContainer = document.getElementById('streak-modal-container');
+const closeStreakModal = document.getElementById('close-streak-modal');
+
+// 該当セクションをクリックしたときにモーダルを開く
+openStreakModal.addEventListener('click', () => {
+    streakModalContainer.classList.add('show');
+});
+
+// モーダル以外のグレーの部分をクリックしたときにモーダルを閉じる
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('show') && !e.target.closest('.modal')) {
+        // classに'show'を持つ、かつ、モーダルのその側をクリックされた時
+        // モーダルの外側をクリックしたときの処理
+        streakModalContainer.classList.remove('show');
+    } else {
+        // モーダルの内側をクリックしたときの処理
+        return;
+    }
+})
+
+// xマークをクリックしたときにモーダルを閉じる
+closeStreakModal.addEventListener('click', () => {
+    streakModalContainer.classList.remove('show');
+});
+
+/**
+ * Training schedule用モーダル
  */
 const openScheduleModal = document.getElementById('open-schedule-modal');
 const scheduleModalContainer = document.getElementById('schedule-modal-container');
