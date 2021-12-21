@@ -26,7 +26,7 @@
             <section class="streak component">
                 <div class="streak-days">Day 32</div>
             </section>
-            <section class="schedule component">
+            <section class="schedule component" id="open-schedule-modal">
                 <h2 class="heading">Schedule</h2>
                 <ul>
                     <li>
@@ -59,9 +59,22 @@
                     </li>
                 </ul>
             </section>
+            <div class="modal-container" id="schedule-modal-container">
+                <div class="modal" id="schedule-modal">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            Training Schedule
+                        </div>
+                        <button data-close-button class="close-button" id="close-schedule-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, deserunt vel? Voluptatibus natus libero soluta numquam neque quaerat perferendis dolore in assumenda alias id reiciendis quasi facilis ullam ab cupiditate veniam impedit magnam totam, qui veritatis? Odio dolor et maiores nam rerum nulla molestiae soluta, accusantium quod fuga harum! Quisquam!
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="wrapper-right">
-            <section class="sizes component">
+            <section class="sizes component" id="open-sizes-modal">
                 <h2 class="heading">Sizes</h2>
                 <table>
                     <tr>
@@ -122,7 +135,20 @@
                     </tr>
                 </table>
             </section>
-            <section class="cost component">
+            <div class="modal-container" id="sizes-modal-container">
+                <div class="modal" id="sizes-modal">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            Sizes
+                        </div>
+                        <button data-close-button class="close-button" id="close-sizes-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, deserunt vel? Voluptatibus natus libero soluta numquam neque quaerat perferendis dolore in assumenda alias id reiciendis quasi facilis ullam ab cupiditate veniam impedit magnam totam, qui veritatis? Odio dolor et maiores nam rerum nulla molestiae soluta, accusantium quod fuga harum! Quisquam!
+                    </div>
+                </div>
+            </div>
+            <section class="cost component" id="open-cost-modal">
                 <h2 class="heading">Cost</h2>
                 <div class="monthly">
                     <div>November, 2021</div>
@@ -133,9 +159,23 @@
                     <div>¥50,000-</div>
                 </div>
             </section>
+            <div class="modal-container" id="cost-modal-container">
+                <div class="modal" id="cost-modal">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            Cost
+                        </div>
+                        <button data-close-button class="close-button" id="close-cost-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, deserunt vel? Voluptatibus natus libero soluta numquam neque quaerat perferendis dolore in assumenda alias id reiciendis quasi facilis ullam ab cupiditate veniam impedit magnam totam, qui veritatis? Odio dolor et maiores nam rerum nulla molestiae soluta, accusantium quod fuga harum! Quisquam!
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script src="js/script.js"></script>
 </body>
 
 </html>
