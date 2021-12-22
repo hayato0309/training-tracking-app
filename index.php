@@ -1,3 +1,9 @@
+<?php
+
+declare(strict_types=1);
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +22,39 @@
 </head>
 
 <body>
+    <?php
+
+    require_once dirname(__FILE__) . '/connect.php';
+    require_once dirname(__FILE__) . '/classes/DayRecord.php';
+
+    /**
+     * dateStart と streak を計算
+     */
+
+    // day_recordテーブルからdate_startデータ（開始日）を取得
+    $statement = $pdo->prepare('SELECT date_start FROM day_record');
+    $statement->execute();
+    $day_record = $statement->fetch(PDO::FETCH_ASSOC);
+
+    // DayRecordのインスタンスを作り、computeStreakメソッドでstreakを計算
+    $dayRecord = new DayRecord($day_record['date_start']);
+    $streak = $dayRecord->computeStreak($day_record['date_start']);
+
+    ?>
     <div class="wrapper">
+
+        <?php if (!empty($_SESSION)) : ?>
+            <div class="error-message-container" id="error-message-container">
+                <?php foreach ($_SESSION as $key => $value) : ?>
+                    <div class="error-messsage">
+                        <?= $value ?>
+                    </div>
+                <?php endforeach; ?>
+                <button class="close-error-message-container" id="close-error-message-container">&times;</button>
+            </div>
+        <?php endif; ?>
+        <?php session_destroy(); ?>
+
         <div class="wrapper-left">
             <section class="daily-announce component">
                 <div class="date">December 20th 2021</div>
@@ -25,25 +63,25 @@
             </section>
             <section class="streak component" id="open-streak-modal">
                 <div class=" streak-days">
-                    Day 32
+                    Day <?= $streak ?>
                 </div>
             </section>
             <div class="modal-container" id="streak-modal-container">
                 <div class="modal" id="streak-modal">
                     <div class="modal-header">
                         <div class="modal-title">
-                            Day 32
+                            Day <?= $streak ?>
                         </div>
                         <button data-close-button class="close-button" id="close-streak-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form action="">
+                        <form action="update_day_record.php" method="post">
                             <div class="streak-question-container">
                                 <label for="">When was the first trainig day?</label>
-                                <input class="streak-input-box" name="money" type="date" max="2021-12-21">
+                                <input class="streak-input-box" name="dateStart" type="date" max="<?= date('Y-m-d') ?>" value="<?= $day_record['date_start'] ?>">
                             </div>
                             <div class="submit-button-container">
-                                <button class="submit-button" type="submit">Submit</button>
+                                <button class="submit-button" type="submit" name="submit" value="submit">Submit</button>
                             </div>
                         </form>
                     </div>

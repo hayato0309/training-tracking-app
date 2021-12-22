@@ -113,3 +113,14 @@ document.addEventListener('click', (e) => {
 closeCostModal.addEventListener('click', () => {
     costModalContainer.classList.remove('show');
 });
+
+/**
+ * Error message container
+ */
+// エラーメッセージを表示するエリアのx印をクリックして閉じる
+const errorMessageContainer = document.getElementById('error-message-container');
+const closeErrorMessageContainer = document.getElementById('close-error-message-container');
+
+closeErrorMessageContainer.addEventListener('click', () => {
+    errorMessageContainer.classList.add('hide');
+});
