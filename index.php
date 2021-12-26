@@ -40,6 +40,13 @@ session_start();
     $dayRecord = new DayRecord($day_record['date_start']);
     $streak = $dayRecord->computeStreak($day_record['date_start']);
 
+    /**
+     * training scheduleを取得
+     */
+    $statement = $pdo->prepare('SELECT * FROM training_schedule');
+    $statement->execute();
+    $training_schedule = $statement->fetch(PDO::FETCH_ASSOC);
+
     ?>
     <div class="wrapper">
 
@@ -78,7 +85,7 @@ session_start();
                         <form action="update_day_record.php" method="post">
                             <div class="streak-question-container">
                                 <label for="">When was the first trainig day?</label>
-                                <input class="streak-input-box" name="dateStart" type="date" max="<?= date('Y-m-d') ?>" value="<?= $day_record['date_start'] ?>">
+                                <input class="streak-input-box" name="dateStart" type="date" max="<?= date('Y-m-d') ?>" value="<?= $day_record['date_start'] ?>" required>
                             </div>
                             <div class="submit-button-container">
                                 <button class="submit-button" type="submit" name="submit" value="submit">Submit</button>
@@ -92,31 +99,31 @@ session_start();
                 <ul>
                     <li>
                         <div class="day">MON</div>
-                        <div class="training-type">Chest</div>
+                        <div class="training-type"><?= $training_schedule['monday'] ?></div>
                     </li>
                     <li>
                         <div class="day">TUE</div>
-                        <div class="training-type">Shoulder</div>
+                        <div class="training-type"><?= $training_schedule['tuesday'] ?></div>
                     </li>
                     <li>
                         <div class="day">WED</div>
-                        <div class="training-type">Rest</div>
+                        <div class="training-type"><?= $training_schedule['wednesday'] ?></div>
                     </li>
                     <li>
                         <div class="day">THU</div>
-                        <div class="training-type">Arms</div>
+                        <div class="training-type"><?= $training_schedule['thursday'] ?></div>
                     </li>
                     <li>
                         <div class="day">FRI</div>
-                        <div class="training-type">Legs</div>
+                        <div class="training-type"><?= $training_schedule['friday'] ?></div>
                     </li>
                     <li>
                         <div class="day">SAT</div>
-                        <div class="training-type">Rest</div>
+                        <div class="training-type"><?= $training_schedule['saturday'] ?></div>
                     </li>
                     <li>
                         <div class="day">SUN</div>
-                        <div class="training-type">Rest</div>
+                        <div class="training-type"><?= $training_schedule['sunday'] ?></div>
                     </li>
                 </ul>
             </section>
@@ -129,37 +136,37 @@ session_start();
                         <button data-close-button class="close-button" id="close-schedule-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form action="">
+                        <form action="update_training_schedule.php" method="post">
                             <div class="form-row">
-                                <label class="day" for="monday-training">MON</label>
-                                <input name="monday-training" type="text" value="sample">
+                                <label class="day" for="monday">MON</label>
+                                <input name="monday" type="text" value="<?= $training_schedule['monday'] ?>" required>
                             </div>
                             <div class="form-row">
-                                <label class="day" for="tuesday-training">TUE</label>
-                                <input name="tuesday-training" type="text" value="sample">
+                                <label class="day" for="tuesday">TUE</label>
+                                <input name="tuesday" type="text" value="<?= $training_schedule['tuesday'] ?>" required>
                             </div>
                             <div class="form-row">
-                                <label class="day" for="wednesday-training">WED</label>
-                                <input name="wednesday-training" type="text" value="sample">
+                                <label class="day" for="wednesday">WED</label>
+                                <input name="wednesday" type="text" value="<?= $training_schedule['wednesday'] ?>" required>
                             </div>
                             <div class="form-row">
-                                <label class="day" for="thursday-training">THU</label>
-                                <input name="thursday-training" type="text" value="sample">
+                                <label class="day" for="thursday">THU</label>
+                                <input name="thursday" type="text" value="<?= $training_schedule['thursday'] ?>" required>
                             </div>
                             <div class="form-row">
-                                <label class="day" for="friday-training">FRI</label>
-                                <input name="friday-training" type="text" value="sample">
+                                <label class="day" for="friday">FRI</label>
+                                <input name="friday" type="text" value="<?= $training_schedule['friday'] ?>" required>
                             </div>
                             <div class="form-row">
-                                <label class="day" for="saturday-training">SAT</label>
-                                <input name="saturday-training" type="text" value="sample">
+                                <label class="day" for="saturday">SAT</label>
+                                <input name="saturday" type="text" value="<?= $training_schedule['saturday'] ?>" required>
                             </div>
                             <div class="form-row">
-                                <label class="day" for="sunday-training">SUN</label>
-                                <input name="sunday-training" type="text" value="sample">
+                                <label class="day" for="sunday">SUN</label>
+                                <input name="sunday" type="text" value="<?= $training_schedule['sunday'] ?>" required>
                             </div>
                             <div class="submit-button-container">
-                                <button class="submit-button" type="submit">Submit</button>
+                                <button class="submit-button" type="submit" name="submit" value="submit">Submit</button>
                             </div>
                         </form>
                     </div>
