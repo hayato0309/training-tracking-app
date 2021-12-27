@@ -26,6 +26,7 @@ session_start();
 
     require_once dirname(__FILE__) . '/connect.php';
     require_once dirname(__FILE__) . '/classes/DayRecord.php';
+    require_once dirname(__FILE__) . '/classes/Sizes.php';
 
     /**
      * dateStart と streak を計算
@@ -40,6 +41,7 @@ session_start();
     $dayRecord = new DayRecord($day_record['date_start']);
     $streak = $dayRecord->computeStreak($day_record['date_start']);
 
+
     /**
      * training scheduleを取得
      */
@@ -47,6 +49,28 @@ session_start();
     $statement->execute();
     $training_schedule = $statement->fetch(PDO::FETCH_ASSOC);
 
+
+    /**
+     * sizesを取得し、jsonを配列に戻す
+     */
+    $statement = $pdo->prepare('SELECT height, weight, chest, waist, bicep, hip, thigh FROM sizes');
+    $statement->execute();
+    $sizesJson = $statement->fetch(PDO::FETCH_ASSOC);
+    $sizesAssoc = [];
+    foreach ($sizesJson as $key => $value) {
+        $sizesAssoc[$key] = json_decode($value, true);
+    }
+
+    // メソッドをコールするためにインスタンスを生成    
+    $sizes = new Sizes($sizesAssoc['height'], $sizesAssoc['weight'], $sizesAssoc['chest'], $sizesAssoc['waist'], $sizesAssoc['bicep'], $sizesAssoc['hip'], $sizesAssoc['thigh']);
+
+    // currentとgoalの差分を計算し、単位を選定する
+    foreach ($sizes as $key => $values) {
+        $values['diff'] = $sizes->computeDiff((float) $values['current'], (float) $values['goal']);
+        $values['unit'] = $sizes->assignUnit($key);
+
+        $sizes->$key = $values;
+    }
     ?>
     <div class="wrapper">
 
@@ -184,55 +208,15 @@ session_start();
                         <th>Goal</th>
                         <th>Diff</th>
                     </tr>
-                    <tr>
-                        <td>Height</td>
-                        <td>165 cm</td>
-                        <td>165 cm</td>
-                        <td>165 cm</td>
-                        <td>+0 cm</td>
-                    </tr>
-                    <tr>
-                        <td>Weight</td>
-                        <td>57 kg</td>
-                        <td>57 kg</td>
-                        <td>65 kg</td>
-                        <td>+8 kg</td>
-                    </tr>
-                    <tr>
-                        <td>Chest</td>
-                        <td>97 cm</td>
-                        <td>97 cm</td>
-                        <td>105 cm</td>
-                        <td>+8 cm</td>
-                    </tr>
-                    <tr>
-                        <td>Waist</td>
-                        <td>70 cm</td>
-                        <td>70 cm</td>
-                        <td>70 cm</td>
-                        <td>+0 cm</td>
-                    </tr>
-                    <tr>
-                        <td>Biceps</td>
-                        <td>35 cm</td>
-                        <td>35 cm</td>
-                        <td>40 cm</td>
-                        <td>+5 cm</td>
-                    </tr>
-                    <tr>
-                        <td>Hip</td>
-                        <td>80 cm</td>
-                        <td>80 cm</td>
-                        <td>85 cm</td>
-                        <td>+5 cm</td>
-                    </tr>
-                    <tr>
-                        <td>Thigh</td>
-                        <td>40cm</td>
-                        <td>40cm</td>
-                        <td>45cm</td>
-                        <td>+5 cm</td>
-                    </tr>
+                    <?php foreach ($sizes as $key => $value) : ?>
+                        <tr>
+                            <td><?= ucfirst($key) ?></td>
+                            <td><?= $value['start'] . ' ' . $value['unit'] ?></td>
+                            <td><?= $value['current'] . ' ' . $value['unit'] ?></td>
+                            <td><?= $value['goal'] . ' ' . $value['unit'] ?></td>
+                            <td><?= sprintf('%+d', $value['diff']) . ' ' . $value['unit'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                 </table>
             </section>
             <div class="modal-container" id="sizes-modal-container">
@@ -244,7 +228,7 @@ session_start();
                         <button data-close-button class="close-button" id="close-sizes-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form action="">
+                        <form action="update_sizes.php" method="post">
                             <table class="size-input-table">
                                 <tr class="size-input-row">
                                     <th></th>
@@ -255,56 +239,56 @@ session_start();
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Height</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="165" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="165" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="165" min="0"> cm</td>
-                                    <td class="size-input-cell">+0 cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="height-start" value="<?= $sizes->height['start'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="height-current" value="<?= $sizes->height['current'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="height-goal" value="<?= $sizes->height['goal'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->height['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Weight</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="60" min="0"> kg</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="60" min="0"> kg</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="60" min="0"> kg</td>
-                                    <td class="size-input-cell">+8 kg</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="weight-start" value="<?= $sizes->weight['start'] ?>" min="0"> kg</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="weight-current" value="<?= $sizes->weight['current'] ?>" min="0"> kg</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="weight-goal" value="<?= $sizes->weight['goal'] ?>" min="0"> kg</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->weight['diff']) ?> kg</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Chest</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="90" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="90" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="100" min="0"> cm</td>
-                                    <td class="size-input-cell">+8 cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="chest-start" value="<?= $sizes->chest['start'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="chest-current" value="<?= $sizes->chest['current'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="chest-goal" value="<?= $sizes->chest['goal'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->chest['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Waist</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="70" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="70" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="70" min="0"> cm</td>
-                                    <td class="size-input-cell">+0 cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="waist-start" value="<?= $sizes->waist['start'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="waist-current" value="<?= $sizes->waist['current'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="waist-goal" value="<?= $sizes->waist['goal'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->waist['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
-                                    <td class="size-input-cell">Biceps</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="30" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="30" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="35" min="0"> cm</td>
-                                    <td class="size-input-cell">+5 cm</td>
+                                    <td class="size-input-cell">Bicep</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="bicep-start" value="<?= $sizes->bicep['start'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="bicep-current" value="<?= $sizes->bicep['current'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="bicep-goal" value="<?= $sizes->bicep['goal'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->bicep['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Hip</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="80" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="80" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="85" min="0"> cm</td>
-                                    <td class="size-input-cell">+5 cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="hip-start" value="<?= $sizes->hip['start'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="hip-current" value="<?= $sizes->hip['current'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="hip-goal" value="<?= $sizes->hip['goal'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->hip['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Thigh</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="40" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="40" min="0"> cm</td>
-                                    <td class="size-input-cell"><input class="size-input-box" type="number" name="" value="45" min="0"> cm</td>
-                                    <td class="size-input-cell">+5 cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="thigh-start" value="<?= $sizes->thigh['start'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="thigh-current" value="<?= $sizes->thigh['current'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="thigh-goal" value="<?= $sizes->thigh['goal'] ?>" min="0"> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->thigh['diff']) ?> cm</td>
                                 </tr>
                             </table>
                             <div class="submit-button-container">
-                                <button class="submit-button" type="submit">Submit</button>
+                                <button class="submit-button" type="submit" name="submit" value="submit">Submit</button>
                             </div>
                         </form>
                     </div>
