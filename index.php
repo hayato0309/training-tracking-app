@@ -76,11 +76,11 @@ session_start();
 
         <?php if (!empty($_SESSION)) : ?>
             <div class="error-message-container" id="error-message-container">
-                <?php foreach ($_SESSION as $key => $value) : ?>
-                    <div class="error-messsage">
-                        <?= $value ?>
-                    </div>
-                <?php endforeach; ?>
+                <div class="erorr-message">
+                    <?php foreach ($_SESSION as $key => $value) : ?>
+                        <div><?= $value ?></div>
+                    <?php endforeach; ?>
+                </div>
                 <button class="close-error-message-container" id="close-error-message-container">&times;</button>
             </div>
         <?php endif; ?>
@@ -103,7 +103,7 @@ session_start();
                         <div class="modal-title">
                             Day <?= $streak ?>
                         </div>
-                        <button data-close-button class="close-button" id="close-streak-modal">&times;</button>
+                        <button class="close-button" id="close-streak-modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form action="update_day_record.php" method="post">
@@ -157,7 +157,7 @@ session_start();
                         <div class="modal-title">
                             Training Schedule
                         </div>
-                        <button data-close-button class="close-button" id="close-schedule-modal">&times;</button>
+                        <button class="close-button" id="close-schedule-modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form action="update_training_schedule.php" method="post">
@@ -225,7 +225,7 @@ session_start();
                         <div class="modal-title">
                             Sizes
                         </div>
-                        <button data-close-button class="close-button" id="close-sizes-modal">&times;</button>
+                        <button class="close-button" id="close-sizes-modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form action="update_sizes.php" method="post">
@@ -311,20 +311,21 @@ session_start();
                         <div class="modal-title">
                             Cost
                         </div>
-                        <button data-close-button class="close-button" id="close-cost-modal">&times;</button>
+                        <button class="close-button" id="close-cost-modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form action="">
+                        <form action="store_cost.php" method="post">
                             <div class="cost-question-container">
-                                <label for="">Please select month and year.</label>
-                                <input class="cost-input-box" name="money" type="month">
+                                <label for="year-month">Please select year and month.</label>
+                                <!-- <input class="cost-input-box" name="year-month" type="month" max="2021-10"> -->
+                                <input class="cost-input-box" name="year-month" type="month" max="<?= date('Y-m') ?>">
                             </div>
                             <div class="cost-question-container">
-                                <label for="">How much did you epend the month?</label>
-                                <input class="cost-input-box" name="money" type="number" placeholder="¥">
+                                <label for="money">How much did you epend the month?</label>
+                                <input class="cost-input-box" name="money" type="number" placeholder="¥" min="1">
                             </div>
                             <div class="submit-button-container">
-                                <button class="submit-button" type="submit">Submit</button>
+                                <button class="submit-button" type="submit" name="submit" value="submit">Submit</button>
                             </div>
                         </form>
                     </div>
