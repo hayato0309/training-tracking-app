@@ -75,13 +75,6 @@ if ($_POST['submit'] === 'submit') {
     $statement->bindValue(':hipJson', json_encode($hipArray), PDO::PARAM_STR);
     $statement->bindValue(':thighJson', json_encode($thighArray), PDO::PARAM_STR);
     $statement->execute();
-
-    // currentとgoalの差分を格納する空配列を準備
-    // $diffs = [];
-
-    // foreach ($sizes as $key => $value) {
-    //     $diffs[] = $sizes->computeDiff((float) $value['current'], (float) $value['goal']);
-    // }
 }
 
 header('Location: index.php');

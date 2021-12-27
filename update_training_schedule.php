@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+session_start();
 
 require_once dirname(__FILE__) . '/connect.php';
 require_once dirname(__FILE__) . '/classes/TrainingSchedule.php';
@@ -23,7 +24,6 @@ if ($_POST['submit'] === 'submit') {
         $trainingPart = $trainingSchedule->validateTrainingScheduleStrLength($trainingPart);
 
         if ($trainingPart === false) {
-            session_start();
             $_SESSION['trainingScheduleError'] = 'Training schedule must be 1-200 characters.';
             header('Location: index.php');
             return;

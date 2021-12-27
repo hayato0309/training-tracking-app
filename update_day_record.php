@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+session_start();
 
 require_once dirname(__FILE__) . '/connect.php';
 require_once dirname(__FILE__) . '/classes/DayRecord.php';
@@ -16,7 +17,6 @@ if ($_POST['submit'] === 'submit' && $dateStart !== '' && $dayRecord->isDateStar
     $statement->execute();
 } else {
     // submitボタンを押さずURLを直接入力した時、日付が選択されていない時
-    session_start();
     $_SESSION['no_dateStart'] = 'Please select the proper date.';
 }
 

@@ -27,6 +27,7 @@ session_start();
     require_once dirname(__FILE__) . '/connect.php';
     require_once dirname(__FILE__) . '/classes/DayRecord.php';
     require_once dirname(__FILE__) . '/classes/Sizes.php';
+    require_once dirname(__FILE__) . '/classes/Cost.php';
 
     /**
      * dateStart と streak を計算
@@ -71,6 +72,21 @@ session_start();
 
         $sizes->$key = $values;
     }
+
+
+    /**
+     * costセクションの計算
+     */
+    // 先月の年月を求める
+    $lastMonth = date("Y-m", strtotime("-1 month"));
+
+    // 先月の出費の合計を求める
+    $statement = $pdo->prepare('SELECT SUM(money) FROM costs WHERE paid_month = :lastMonth');
+    $statement->bindValue(':lastMonth', $lastMonth, PDO::PARAM_STR);
+    $statement->execute();
+
+    $lastMonthCost = $statement->fetch(PDO::FETCH_ASSOC);
+
     ?>
     <div class="wrapper">
 
@@ -297,8 +313,8 @@ session_start();
             <section class="cost component" id="open-cost-modal">
                 <h2 class="heading">Cost</h2>
                 <div class="monthly">
-                    <div>November, 2021</div>
-                    <div>¥10,000-</div>
+                    <div><?= date("Y F", strtotime($lastMonth)) ?></div>
+                    <div>¥<?= number_format((int) $lastMonthCost['SUM(money)']) ?>-</div>
                 </div>
                 <div class="totalCost">
                     <div>From 2021-09-01 until today</div>
@@ -317,7 +333,6 @@ session_start();
                         <form action="store_cost.php" method="post">
                             <div class="cost-question-container">
                                 <label for="year-month">Please select year and month.</label>
-                                <!-- <input class="cost-input-box" name="year-month" type="month" max="2021-10"> -->
                                 <input class="cost-input-box" name="year-month" type="month" max="<?= date('Y-m') ?>">
                             </div>
                             <div class="cost-question-container">
