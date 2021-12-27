@@ -214,7 +214,7 @@ session_start();
                             <td><?= $value['start'] . ' ' . $value['unit'] ?></td>
                             <td><?= $value['current'] . ' ' . $value['unit'] ?></td>
                             <td><?= $value['goal'] . ' ' . $value['unit'] ?></td>
-                            <td><?= sprintf('%+d', $value['diff']) . ' ' . $value['unit'] ?></td>
+                            <td><?= sprintf('%+.1f', $value['diff']) . ' ' . $value['unit'] ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
@@ -242,49 +242,49 @@ session_start();
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="height-start" value="<?= $sizes->height['start'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="height-current" value="<?= $sizes->height['current'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="height-goal" value="<?= $sizes->height['goal'] ?>" min="0"> cm</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->height['diff']) ?> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->height['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Weight</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="weight-start" value="<?= $sizes->weight['start'] ?>" min="0"> kg</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="weight-current" value="<?= $sizes->weight['current'] ?>" min="0"> kg</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="weight-goal" value="<?= $sizes->weight['goal'] ?>" min="0"> kg</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->weight['diff']) ?> kg</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->weight['diff']) ?> kg</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Chest</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="chest-start" value="<?= $sizes->chest['start'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="chest-current" value="<?= $sizes->chest['current'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="chest-goal" value="<?= $sizes->chest['goal'] ?>" min="0"> cm</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->chest['diff']) ?> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->chest['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Waist</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="waist-start" value="<?= $sizes->waist['start'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="waist-current" value="<?= $sizes->waist['current'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="waist-goal" value="<?= $sizes->waist['goal'] ?>" min="0"> cm</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->waist['diff']) ?> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->waist['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Bicep</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="bicep-start" value="<?= $sizes->bicep['start'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="bicep-current" value="<?= $sizes->bicep['current'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="bicep-goal" value="<?= $sizes->bicep['goal'] ?>" min="0"> cm</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->bicep['diff']) ?> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->bicep['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Hip</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="hip-start" value="<?= $sizes->hip['start'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="hip-current" value="<?= $sizes->hip['current'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="hip-goal" value="<?= $sizes->hip['goal'] ?>" min="0"> cm</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->hip['diff']) ?> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->hip['diff']) ?> cm</td>
                                 </tr>
                                 <tr>
                                     <td class="size-input-cell">Thigh</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="thigh-start" value="<?= $sizes->thigh['start'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="thigh-current" value="<?= $sizes->thigh['current'] ?>" min="0"> cm</td>
                                     <td class="size-input-cell"><input class="size-input-box" type="number" step="0.1" name="thigh-goal" value="<?= $sizes->thigh['goal'] ?>" min="0"> cm</td>
-                                    <td class="size-input-cell"><?= sprintf('%+d', $sizes->thigh['diff']) ?> cm</td>
+                                    <td class="size-input-cell"><?= sprintf('%+.1f', $sizes->thigh['diff']) ?> cm</td>
                                 </tr>
                             </table>
                             <div class="submit-button-container">
