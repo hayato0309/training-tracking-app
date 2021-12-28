@@ -87,6 +87,12 @@ session_start();
 
     $lastMonthCost = $statement->fetch(PDO::FETCH_ASSOC);
 
+    // 今までの出費の合計を求める
+    $statement = $pdo->prepare('SELECT SUM(money) FROM costs');
+    $statement->execute();
+
+    $allCost = $statement->fetch(PDO::FETCH_ASSOC);
+
     ?>
     <div class="wrapper">
 
@@ -317,8 +323,8 @@ session_start();
                     <div>¥<?= number_format((int) $lastMonthCost['SUM(money)']) ?>-</div>
                 </div>
                 <div class="totalCost">
-                    <div>From 2021-09-01 until today</div>
-                    <div>¥50,000-</div>
+                    <div>From <?= $day_record['date_start'] ?> until today</div>
+                    <div>¥<?= number_format((int) $allCost['SUM(money)']) ?>-</div>
                 </div>
             </section>
             <div class="modal-container" id="cost-modal-container">
