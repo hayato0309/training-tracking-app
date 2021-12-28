@@ -40,4 +40,15 @@ class TrainingSchedule
         }
         return true;
     }
+
+    public static function getTrainingDay(): string
+    {
+        // 曜日の配列を用意
+        $week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+        // 今日の曜日を取得
+        $day = $week[date("w")];
+
+        return $day;
+    }
 }
