@@ -110,7 +110,7 @@ session_start();
 
         <div class="wrapper-left">
             <section class="daily-announce component">
-                <div class="date">December 20th 2021</div>
+                <div class="date"><?= date("F j, Y") ?></div>
                 <div class="greeting">Hello Hayato!</div>
                 <div class="reminder">Today is <span class="training-type">Leg</span> day. Keep it up!</div>
             </section>
