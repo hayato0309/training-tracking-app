@@ -28,11 +28,23 @@ session_start();
     require_once dirname(__FILE__) . '/classes/DayRecord.php';
     require_once dirname(__FILE__) . '/classes/Sizes.php';
     require_once dirname(__FILE__) . '/classes/Cost.php';
+    require_once dirname(__FILE__) . '/classes/TrainingSchedule.php';
+
+    /**
+     * 今日のtraining scheduleを取得
+     */
+    $trainingDay = TrainingSchedule::getTrainingDay();
+
+    $statement = $pdo->prepare('SELECT * FROM training_schedule');
+    $statement->bindValue(':trainingDay', $trainingDay, PDO::PARAM_STR);
+    $statement->execute();
+
+    $weekTrainingSchedule = $statement->fetch(PDO::FETCH_ASSOC);
+    $todayTrainingSchedule = $weekTrainingSchedule[$trainingDay];
 
     /**
      * dateStart と streak を計算
      */
-
     // day_recordテーブルからdate_startデータ（開始日）を取得
     $statement = $pdo->prepare('SELECT date_start FROM day_record');
     $statement->execute();
@@ -112,7 +124,7 @@ session_start();
             <section class="daily-announce component">
                 <div class="date"><?= date("F j, Y") ?></div>
                 <div class="greeting">Hello Hayato!</div>
-                <div class="reminder">Today is <span class="training-type">Leg</span> day. Keep it up!</div>
+                <div class="reminder">Today is <?= $todayTrainingSchedule ?> day. Keep it up!</div>
             </section>
             <section class="streak component" id="open-streak-modal">
                 <div class=" streak-days">
